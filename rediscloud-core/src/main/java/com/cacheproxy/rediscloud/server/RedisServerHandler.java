@@ -1,6 +1,6 @@
 package com.cacheproxy.rediscloud.server;
 
-import com.cacheproxy.rediscloud.codec.entity.IRedisRequest;
+import com.cacheproxy.rediscloud.codec.request.IRedisRequest;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -14,11 +14,16 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class RedisServerHandler extends
 		SimpleChannelInboundHandler<IRedisRequest> {
 
+	
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, IRedisRequest msg)
 			throws Exception {
-		// TODO Auto-generated method stub
-
+		/**
+		 * TODO 
+		 * 先把所有的命令 发送给 后端，不做处理--处理放到后面来做
+		 * 
+		 */
+		
 	}
 
 }

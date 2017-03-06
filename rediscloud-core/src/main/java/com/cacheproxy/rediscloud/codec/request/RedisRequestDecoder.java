@@ -1,4 +1,4 @@
-package com.cacheproxy.rediscloud.codec;
+package com.cacheproxy.rediscloud.codec.request;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -6,7 +6,7 @@ import io.netty.handler.codec.ReplayingDecoder;
 
 import java.util.List;
 
-import com.cacheproxy.rediscloud.codec.entity.request.RedisRequest;
+import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
 import com.cacheproxy.rediscloud.common.RedisConstants;
 
 /**

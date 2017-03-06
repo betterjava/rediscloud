@@ -1,11 +1,11 @@
-package com.cacheproxy.rediscloud.codec.entity.response;
+package com.cacheproxy.rediscloud.codec.response.entity;
 
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cacheproxy.rediscloud.codec.entity.IRedisResponse;
+import com.cacheproxy.rediscloud.codec.response.IRedisResponse;
 import com.cacheproxy.rediscloud.common.RedisResponseType;
 
 /**

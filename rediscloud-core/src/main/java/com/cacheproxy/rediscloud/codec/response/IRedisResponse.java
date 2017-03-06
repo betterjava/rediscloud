@@ -1,4 +1,4 @@
-package com.cacheproxy.rediscloud.codec.entity;
+package com.cacheproxy.rediscloud.codec.response;
 
 import io.netty.buffer.ByteBuf;
 

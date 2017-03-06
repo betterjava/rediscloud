@@ -1,11 +1,5 @@
 package com.cacheproxy.rediscloud.server;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.cacheproxy.rediscloud.codec.RedisRequestDecoder;
-import com.cacheproxy.rediscloud.codec.RedisResponseEncoder;
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,6 +9,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.cacheproxy.rediscloud.codec.request.RedisRequestDecoder;
+import com.cacheproxy.rediscloud.codec.request.RedisRequestEncoder;
+import com.cacheproxy.rediscloud.codec.response.RedisResponseEncoder;
 
 /**
  * 
@@ -27,7 +28,9 @@ public class RedisServer {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(RedisServer.class);
 
-	private int port;// TODO 应该从配置中获取
+	private final static int DEFAULT_PORT = 8080; 
+	
+	private int port = DEFAULT_PORT;// TODO 应该从配置中获取
 
 	public void start() {
 

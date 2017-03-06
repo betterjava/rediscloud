@@ -1,6 +1,5 @@
-package com.cacheproxy.rediscloud.codec;
+package com.cacheproxy.rediscloud.codec.response;
 
-import com.cacheproxy.rediscloud.codec.entity.IRedisResponse;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,12 +12,15 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @date 2017-3-6
  */
 public class RedisResponseEncoder extends MessageToByteEncoder<IRedisResponse>{
+	
 
+	/**
+	 * 把redis 响应 写入到 前端的编码
+	 */
 	@Override
 	protected void encode(ChannelHandlerContext ctx, IRedisResponse msg,
 			ByteBuf out) throws Exception {
-		// TODO Auto-generated method stub
-		
+		msg.encode(out);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.cacheproxy.rediscloud.codec;
+package com.cacheproxy.rediscloud.codec.request;
 
 public enum RedisRequestState {
 	ARG_NUM,			// 参数数量

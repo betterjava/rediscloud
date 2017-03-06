@@ -1,9 +1,12 @@
-package com.cacheproxy.rediscloud.codec.entity.request;
+package com.cacheproxy.rediscloud.codec.request.entity;
+
+import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cacheproxy.rediscloud.codec.entity.IRedisRequest;
+import com.cacheproxy.rediscloud.codec.request.IRedisRequest;
+
 
 public class RedisRequest implements IRedisRequest {
 
@@ -27,5 +30,11 @@ public class RedisRequest implements IRedisRequest {
 
 	public void appendCommand(byte[] bytes) {
 		commands.add(bytes);
+	}
+
+	@Override
+	public void encode(ByteBuf buf) {
+		// TODO Auto-generated method stub
+		
 	}
 }
