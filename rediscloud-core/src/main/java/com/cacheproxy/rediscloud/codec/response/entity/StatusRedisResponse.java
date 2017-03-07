@@ -13,7 +13,7 @@ import com.cacheproxy.rediscloud.common.RedisResponseType;
  */
 public class StatusRedisResponse extends AbstractRedisResponse {
 
-	public StatusRedisResponse(RedisResponseType type) {
+	public StatusRedisResponse() {
 		super(RedisResponseType.STATUS);
 	}
 

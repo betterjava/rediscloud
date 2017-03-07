@@ -12,7 +12,7 @@ import com.cacheproxy.rediscloud.common.RedisResponseType;
  */
 public class ErrorRedisResponse extends AbstractRedisResponse {
 
-	public ErrorRedisResponse(RedisResponseType type) {
+	public ErrorRedisResponse() {
 		super(RedisResponseType.ERROR);
 	}
 	

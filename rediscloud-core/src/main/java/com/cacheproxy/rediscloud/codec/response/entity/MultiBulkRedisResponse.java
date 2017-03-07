@@ -20,7 +20,7 @@ public class MultiBulkRedisResponse extends AbstractRedisResponse {
 
 	protected List<IRedisResponse> list = new ArrayList<IRedisResponse>();
 
-	public MultiBulkRedisResponse(RedisResponseType type) {
+	public MultiBulkRedisResponse() {
 		super(RedisResponseType.MULTIBULK);
 	}
 
@@ -71,5 +71,9 @@ public class MultiBulkRedisResponse extends AbstractRedisResponse {
 			}
 		}
 
+	}
+	
+	public void addResponse(IRedisResponse response){
+		list.add(response);
 	}
 }

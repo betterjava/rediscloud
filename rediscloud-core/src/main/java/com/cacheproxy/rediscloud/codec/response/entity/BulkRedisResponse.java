@@ -14,7 +14,7 @@ public class BulkRedisResponse extends AbstractRedisResponse {
 
 	private int length;
 	
-	public BulkRedisResponse(RedisResponseType type) {
+	public BulkRedisResponse() {
 		super(RedisResponseType.BULK);
 	}
 	

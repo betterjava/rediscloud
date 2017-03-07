@@ -12,7 +12,7 @@ import com.cacheproxy.rediscloud.common.RedisResponseType;
  */
 public class IntegerRedisResponse extends AbstractRedisResponse {
 
-	public IntegerRedisResponse(RedisResponseType type) {
+	public IntegerRedisResponse() {
 		super(RedisResponseType.INTEGER);
 	}
 
