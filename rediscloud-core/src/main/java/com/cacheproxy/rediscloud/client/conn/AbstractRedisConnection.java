@@ -39,8 +39,12 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 	private String host = DEFAULT_HOST;
 	private int port = DEFAULT_PORT;
 	
+	public AbstractRedisConnection(){
+		initClientBootstrap();
+	}
 	
-	protected void start() {
+	
+	protected void initClientBootstrap() {
 		
 		EventLoopGroup workGroup = new NioEventLoopGroup();
 		Bootstrap boot = new Bootstrap();
@@ -91,8 +95,6 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 		}
 
 	}
-	
-	
 	
 	public void setFrontCtx(ChannelHandlerContext frontCtx) {
 		this.frontCtx = frontCtx;

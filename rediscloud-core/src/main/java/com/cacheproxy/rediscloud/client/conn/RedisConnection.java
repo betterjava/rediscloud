@@ -20,7 +20,7 @@ public class RedisConnection extends AbstractRedisConnection {
 
 	@Override
 	public void open() {
-		start();
+		initClientBootstrap();
 	}
 
 	@Override
@@ -31,14 +31,13 @@ public class RedisConnection extends AbstractRedisConnection {
 
 	@Override
 	public void close(int timeout) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public boolean isAvailable() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO 这块 还没有实现
+		return true;
 	}
 	
 	

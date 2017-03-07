@@ -30,7 +30,10 @@
 			<artifactId>slf4j-simple</artifactId>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
 
 	</dependencies>
 

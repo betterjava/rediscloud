@@ -2,8 +2,12 @@ package com.cacheproxy.rediscloud.client;
 
 import io.netty.channel.ChannelHandlerContext;
 
-import com.cacheproxy.rediscloud.client.conn.RedisConnection;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+
+import com.cacheproxy.rediscloud.client.conn.IRedisConnection;
 import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
+import com.cacheproxy.rediscloud.pool.CollectionFactory;
+import com.cacheproxy.rediscloud.pool.ConnectionPoolConfig;
 
 /**
  * @desc 
@@ -14,16 +18,24 @@ import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
 public class RedisClient implements Client {
 	// TODO 先实现为 单连接的，跑通之后，再实现为 多个连接的
 	
-	private RedisConnection connection;
+	private GenericObjectPool<IRedisConnection> pool;
 	
 	public void start(){
-		// 连接 connect
-		connection = new RedisConnection();
-		connection.open();
+		CollectionFactory factory = new CollectionFactory();
+		ConnectionPoolConfig config = new ConnectionPoolConfig();
+		config.setMinIdle(5);
+		config.setMaxTotal(100);
+		// TODO 这些都要从配置中获取
+		pool = new GenericObjectPool<IRedisConnection>(factory, config);
 	}
 	
 	public void write(RedisRequest request, ChannelHandlerContext context) {
-		connection.write(request, context);
+		try {
+			pool.borrowObject().write(request, context);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }	
 
