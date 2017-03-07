@@ -44,28 +44,29 @@ public class MultiBulkRedisResponse extends AbstractRedisResponse {
 		for (IRedisResponse response : list) {
 
 			// 返回的是数值结果
-
+			byte[] responseValue = ((AbstractRedisResponse)response).getValue(); 
 			if (response instanceof IntegerRedisResponse) {
+				
 				buf.writeByte(RedisResponseType.INTEGER.getHead());
-				if (count == 0 && value == null) {
+				if (count == 0 && responseValue == null) {
 					buf.writeBytes(String.valueOf(-1).getBytes());
 					writeCRLF(buf);
 				} else {
-					buf.writeBytes(String.valueOf(value.length).getBytes());
+					buf.writeBytes(String.valueOf(responseValue.length).getBytes());
 					writeCRLF(buf);
-					buf.writeBytes(value);
+					buf.writeBytes(responseValue);
 					writeCRLF(buf);
 				}
 
 			} else if (response instanceof BulkRedisResponse) {
 				buf.writeByte(RedisResponseType.BULK.getHead());
-				if (count == 0 && value == null) {
+				if (count == 0 && responseValue == null) {
 					buf.writeBytes(String.valueOf(-1).getBytes());
 					writeCRLF(buf);
 				} else {
-					buf.writeBytes(String.valueOf(value.length).getBytes());
+					buf.writeBytes(String.valueOf(responseValue.length).getBytes());
 					writeCRLF(buf);
-					buf.writeBytes(value);
+					buf.writeBytes(responseValue);
 					writeCRLF(buf);
 				}
 			}

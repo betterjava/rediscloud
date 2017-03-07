@@ -93,12 +93,12 @@ public class RedisResponseDecoder extends ReplayingDecoder<RedisResponseState> {
 		response.setCount(count);
 
 		for (int i = 0; i < count; i++) {
-			char type = in.readChar();
-			if ((char) RedisResponseType.INTEGER.getHead() == type) {
+			byte head = in.readByte();
+			if ( RedisResponseType.INTEGER.getHead() == head) {
 				IntegerRedisResponse integerResponse = new IntegerRedisResponse();
 				integerResponse.setValue(readLine(in));
 				response.addResponse(integerResponse);
-			} else if ((char) RedisResponseType.BULK.getHead() == type) {
+			} else if (RedisResponseType.BULK.getHead() == head) {
 				BulkRedisResponse bulkRedisResponse = new BulkRedisResponse();
 				readBulk(in, bulkRedisResponse);
 				response.addResponse(bulkRedisResponse);
