@@ -1,6 +1,8 @@
 package com.cacheproxy.rediscloud.server;
 
+import com.cacheproxy.rediscloud.client.RedisClientPool;
 import com.cacheproxy.rediscloud.codec.request.IRedisRequest;
+import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -23,7 +25,8 @@ public class RedisServerHandler extends
 		 * 先把所有的命令 发送给 后端，不做处理--处理放到后面来做
 		 * 
 		 */
-		
+		RedisRequest request = (RedisRequest)msg;
+		RedisClientPool.getInstance().write(request, ctx);
 	}
 
 }

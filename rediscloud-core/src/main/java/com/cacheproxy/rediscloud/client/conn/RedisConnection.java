@@ -14,7 +14,7 @@ public class RedisConnection extends AbstractRedisConnection {
 
 	@Override
 	public void write(RedisRequest request, ChannelHandlerContext context) {
-		
+		setFrontCtx(context);
 		socketChannel.writeAndFlush(request);
 	}
 

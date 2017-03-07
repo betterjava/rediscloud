@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cacheproxy.rediscloud.codec.request.IRedisRequest;
+import com.cacheproxy.rediscloud.common.RedisConstants;
 
 
 public class RedisRequest implements IRedisRequest {
@@ -34,7 +35,20 @@ public class RedisRequest implements IRedisRequest {
 
 	@Override
 	public void encode(ByteBuf buf) {
-		// TODO Auto-generated method stub
-		
+		buf.writeByte((byte)RedisConstants.ASTERISK_BYTE);
+		buf.writeBytes(String.valueOf(commands.size()).getBytes());
+		writeCRLF(buf);
+		for (byte[] bytes:commands) {
+			buf.writeByte((byte)RedisConstants.DOLLAR_BYTE);
+			buf.writeBytes(String.valueOf(bytes.length).getBytes());
+			writeCRLF(buf);
+			buf.writeBytes(bytes);
+			writeCRLF(buf);
+		}
+	}
+	
+	public void writeCRLF(ByteBuf byteBuf) {
+		byteBuf.writeByte(RedisConstants.CR_BYTE);
+		byteBuf.writeByte(RedisConstants.LF_BYTE);
 	}
 }
