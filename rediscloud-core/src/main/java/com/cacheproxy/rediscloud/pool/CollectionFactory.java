@@ -6,6 +6,7 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 import com.cacheproxy.rediscloud.client.conn.IRedisConnection;
 import com.cacheproxy.rediscloud.client.conn.RedisConnection;
+import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
 
 /**
  * @desc
@@ -15,9 +16,16 @@ import com.cacheproxy.rediscloud.client.conn.RedisConnection;
  */
 public class CollectionFactory implements PooledObjectFactory<IRedisConnection> {
 
+	private ConnectionPoolConfig poolConfig;
+
+	public CollectionFactory(ConnectionPoolConfig poolConfig) {
+		super();
+		this.poolConfig = poolConfig;
+	}
+
 	@Override
 	public PooledObject<IRedisConnection> makeObject() throws Exception {
-		return new DefaultPooledObject<IRedisConnection>(new RedisConnection());
+		return new DefaultPooledObject<IRedisConnection>(new RedisConnection(poolConfig));
 	}
 
 	@Override

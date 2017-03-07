@@ -1,5 +1,7 @@
 package com.cacheproxy.rediscloud.client;
 
+import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
+
 /**
  * @desc 临时方法
  * @author liya
@@ -13,8 +15,9 @@ public class RedisClientPool {
 	}
 
 	private static RedisClient initClient() {
-
-		RedisClient instance = new RedisClient();
+		// 配置 应当在 server 启动的时候初始化 好
+		// TODO 从配置中获取
+		RedisClient instance = new RedisClient(new ConnectionPoolConfig("10.1.200.144",6379));
 
 		instance.start();
 

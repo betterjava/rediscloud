@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.cacheproxy.rediscloud.codec.request.RedisRequestEncoder;
 import com.cacheproxy.rediscloud.codec.response.IRedisResponse;
 import com.cacheproxy.rediscloud.codec.response.RedisResponseDecoder;
+import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
 
 /**
  * @desc
@@ -29,17 +30,14 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(AbstractRedisConnection.class);
 	
-	private final static String DEFAULT_HOST = "10.1.200.144";// TODO 
-	private final static int DEFAULT_PORT = 6379; 
-	
 	protected SocketChannel socketChannel;
 	
 	private ChannelHandlerContext frontCtx;
 	
-	private String host = DEFAULT_HOST;
-	private int port = DEFAULT_PORT;
+	private ConnectionPoolConfig poolConfig;
 	
-	public AbstractRedisConnection(){
+	public AbstractRedisConnection(ConnectionPoolConfig config){
+		this.poolConfig = config;
 		initClientBootstrap();
 	}
 	
@@ -53,7 +51,7 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 		boot.channel(NioSocketChannel.class);
 		boot.option(ChannelOption.SO_KEEPALIVE, true);// TODO socket 的参数 还有待商榷
 		boot.option(ChannelOption.TCP_NODELAY, true);
-		boot.remoteAddress(host, port);
+		boot.remoteAddress(poolConfig.getHost(), poolConfig.getPort());
 		
 		boot.handler(new ChannelInitializer<SocketChannel>() {
 
@@ -71,7 +69,7 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 		 */
 		ChannelFuture future = null;
 		try {
-			future = boot.connect(host, port).sync();
+			future = boot.connect(poolConfig.getHost(), poolConfig.getPort()).sync();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,7 +77,7 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 		
 		if(future.isSuccess()){
 			socketChannel = (SocketChannel) future.channel();
-			LOGGER.info("client start success ,host:[{}],post:[{}]",host,port);
+			LOGGER.info("client start success ,host:[{}],post:[{}]",poolConfig.getHost(), poolConfig.getPort());
 		}
 	}
 	

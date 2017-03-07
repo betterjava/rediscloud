@@ -3,6 +3,7 @@ package com.cacheproxy.rediscloud.client.conn;
 import io.netty.channel.ChannelHandlerContext;
 
 import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
+import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
 
 /**
  * @desc 
@@ -11,6 +12,10 @@ import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
  * @date 2017-3-6
  */
 public class RedisConnection extends AbstractRedisConnection {
+
+	public RedisConnection(ConnectionPoolConfig config) {
+		super(config);
+	}
 
 	@Override
 	public void write(RedisRequest request, ChannelHandlerContext context) {
