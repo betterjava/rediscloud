@@ -27,6 +27,9 @@ public class RedisResponseDecoder extends ReplayingDecoder<RedisResponseState> {
 	public RedisResponseDecoder() {
 		state(RedisResponseState.RESULT_TYPE);
 	}
+	
+	
+	AbstractRedisResponse response = null;
 
 	/**
 	 * 把redis 服务器返回的 数据 解码成 redis response
@@ -35,45 +38,44 @@ public class RedisResponseDecoder extends ReplayingDecoder<RedisResponseState> {
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in,
 			List<Object> out) throws Exception {
 
-		AbstractRedisResponse response = null;
-
-		while (true) {
-			switch (state()) {
-			case RESULT_TYPE:
-				byte head = in.readByte();
-				if (RedisResponseType.BULK.getHead() == head) {
-					response = new BulkRedisResponse();
-				} else if (RedisResponseType.ERROR.getHead() == head) {
-					response = new ErrorRedisResponse();
-				} else if (RedisResponseType.INTEGER.getHead() == head) {
-					response = new IntegerRedisResponse();
-				} else if (RedisResponseType.MULTIBULK.getHead() == head) {
-					response = new MultiBulkRedisResponse();
-				} else if (RedisResponseType.STATUS.getHead() == head) {
-					response = new StatusRedisResponse();
-				} else {
-					throw new UnsupportedOperationException(
-							"can get a  head from response ...");
-				}
-				break;
-			case RESULT_CONTENT:
-				RedisResponseType type = response.getType();
-				if (type.equals(RedisResponseType.BULK)) {
-					readBulk(in, (BulkRedisResponse) response);
-				} else if (type.equals(RedisResponseType.MULTIBULK)) {
-					readMultBulk(in, (MultiBulkRedisResponse) response);
-				} else if (type.equals(RedisResponseType.ERROR)) {
-					response.setValue(readLine(in));
-				} else if (type.equals(RedisResponseType.INTEGER)) {
-					response.setValue(readLine(in));
-				} else if (type.equals(RedisResponseType.STATUS)) {
-					response.setValue(readLine(in));
-				}
-				break;
-			default:
+		switch (state()) {
+		case RESULT_TYPE:
+			byte head = in.readByte();
+			if (RedisResponseType.BULK.getHead() == head) {
+				response = new BulkRedisResponse();
+			} else if (RedisResponseType.ERROR.getHead() == head) {
+				response = new ErrorRedisResponse();
+			} else if (RedisResponseType.INTEGER.getHead() == head) {
+				response = new IntegerRedisResponse();
+			} else if (RedisResponseType.MULTIBULK.getHead() == head) {
+				response = new MultiBulkRedisResponse();
+			} else if (RedisResponseType.STATUS.getHead() == head) {
+				response = new StatusRedisResponse();
+			} else {
 				throw new UnsupportedOperationException(
-						"decode response wrong ....");
+						"can get a  head from response ...");
 			}
+			checkpoint(RedisResponseState.RESULT_CONTENT);
+		case RESULT_CONTENT:
+			RedisResponseType type = response.getType();
+			if (type.equals(RedisResponseType.BULK)) {
+				readBulk(in, (BulkRedisResponse) response);
+			} else if (type.equals(RedisResponseType.MULTIBULK)) {
+				readMultBulk(in, (MultiBulkRedisResponse) response);
+			} else if (type.equals(RedisResponseType.ERROR)) {
+				response.setValue(readLine(in));
+			} else if (type.equals(RedisResponseType.INTEGER)) {
+				response.setValue(readLine(in));
+			} else if (type.equals(RedisResponseType.STATUS)) {
+				response.setValue(readLine(in));
+			}
+			checkpoint(RedisResponseState.RESULT_TYPE);
+			out.add(response);
+			response = null;
+			return;
+		default:
+			throw new UnsupportedOperationException(
+					"decode response wrong ....");
 		}
 
 	}

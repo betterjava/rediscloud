@@ -29,8 +29,8 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(AbstractRedisConnection.class);
 	
-	private final static String DEFAULT_HOST = "127.0.0.1";
-	private final static int DEFAULT_PORT = 8080; 
+	private final static String DEFAULT_HOST = "10.1.200.144";// TODO 
+	private final static int DEFAULT_PORT = 6379; 
 	
 	protected SocketChannel socketChannel;
 	
@@ -65,16 +65,21 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 		/**
 		 * TODO 这里也不是这么写的
 		 */
-		ChannelFuture future = boot.connect(host, port);
+		ChannelFuture future = null;
+		try {
+			future = boot.connect(host, port).sync();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if(future.isSuccess()){
-			LOGGER.info("client start success ,post:[{}]");
+			socketChannel = (SocketChannel) future.channel();
+			LOGGER.info("client start success ,host:[{}],post:[{}]",host,port);
 		}
 	}
 	
 	private class RedisClientHandler extends SimpleChannelInboundHandler<IRedisResponse> {
-		
-		
 		
 		@Override
 		protected void messageReceived(ChannelHandlerContext ctx, IRedisResponse msg)

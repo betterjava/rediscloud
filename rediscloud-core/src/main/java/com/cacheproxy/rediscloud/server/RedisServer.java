@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cacheproxy.rediscloud.codec.request.RedisRequestDecoder;
-import com.cacheproxy.rediscloud.codec.request.RedisRequestEncoder;
 import com.cacheproxy.rediscloud.codec.response.RedisResponseEncoder;
 
 /**
@@ -28,7 +27,7 @@ public class RedisServer {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(RedisServer.class);
 
-	private final static int DEFAULT_PORT = 8080; 
+	private final static int DEFAULT_PORT = 6379; 
 	
 	private int port = DEFAULT_PORT;// TODO 应该从配置中获取
 
@@ -58,5 +57,10 @@ public class RedisServer {
 		ChannelFuture future = boot.bind(port);
 		future.syncUninterruptibly();// TODO
 		LOGGER.info("RedisServer start success,post:[{}]", port);
+	}
+	
+	public static void main(String[] args) {
+		RedisServer server = new RedisServer();
+		server.start();
 	}
 }

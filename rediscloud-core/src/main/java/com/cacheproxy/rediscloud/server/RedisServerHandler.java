@@ -1,5 +1,6 @@
 package com.cacheproxy.rediscloud.server;
 
+import com.cacheproxy.rediscloud.client.RedisClient;
 import com.cacheproxy.rediscloud.client.RedisClientPool;
 import com.cacheproxy.rediscloud.codec.request.IRedisRequest;
 import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
