@@ -12,18 +12,19 @@ import com.cacheproxy.rediscloud.balance.LoadBalance;
  */
 public class RedisServerClusterBean {
 	
-	private RedisServerBean masters;
+	private RedisServerBean master;
 	
 	private List<RedisServerBean> slaves;
 	
 	private LoadBalance loadBalance;
 
-	public RedisServerBean getMasters() {
-		return masters;
+	
+	public void setMaster(RedisServerBean master) {
+		this.master = master;
 	}
-
-	public void setMasters(RedisServerBean masters) {
-		this.masters = masters;
+	
+	public RedisServerBean getMaster() {
+		return master;
 	}
 
 	public List<RedisServerBean> getSlaves() {

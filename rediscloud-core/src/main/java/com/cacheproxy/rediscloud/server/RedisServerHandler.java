@@ -15,7 +15,7 @@ import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
  */
 public class RedisServerHandler extends
 		SimpleChannelInboundHandler<IRedisRequest> {
-
+	
 	
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, IRedisRequest msg)
@@ -26,7 +26,8 @@ public class RedisServerHandler extends
 		 * 
 		 */
 		RedisRequest request = (RedisRequest)msg;
-		RedisClientPool.getInstance().write(request, ctx);
+		
+		RedisClientPool.getInstance().write(request, ctx);// TODO 这儿要进行命令的解析了
 	}
 
 }

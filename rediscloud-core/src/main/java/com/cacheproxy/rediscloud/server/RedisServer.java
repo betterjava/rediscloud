@@ -1,5 +1,7 @@
 package com.cacheproxy.rediscloud.server;
 
+import java.util.List;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -10,9 +12,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cacheproxy.rediscloud.client.RedisClient;
+import com.cacheproxy.rediscloud.cluster.RedisCloudCluster;
+import com.cacheproxy.rediscloud.cluster.RedisServerBean;
+import com.cacheproxy.rediscloud.cluster.RedisServerClusterBean;
 import com.cacheproxy.rediscloud.codec.request.RedisRequestDecoder;
 import com.cacheproxy.rediscloud.codec.response.RedisResponseEncoder;
 
@@ -27,15 +34,18 @@ public class RedisServer {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(RedisServer.class);
 
-	private final static int DEFAULT_PORT = 6379; 
-	
-	private int port = DEFAULT_PORT;// TODO 应该从配置中获取
+	private RedisCloudCluster redisCloudCluster;
+
+	public RedisServer(RedisCloudCluster cluster) {
+		this.redisCloudCluster = cluster;
+		init();// 进行 client 的初始化工作
+	}
 
 	public void start() {
 
 		ServerBootstrap boot = new ServerBootstrap();
-		EventLoopGroup boosGroup = new NioEventLoopGroup();// TODO accept 线程数 
-		EventLoopGroup workGroup = new NioEventLoopGroup();// TODO RW 线程数 
+		EventLoopGroup boosGroup = new NioEventLoopGroup();// TODO accept 线程数
+		EventLoopGroup workGroup = new NioEventLoopGroup();// TODO RW 线程数
 
 		boot.group(boosGroup, workGroup);
 		boot.channel(NioServerSocketChannel.class);
@@ -54,13 +64,40 @@ public class RedisServer {
 				pipeline.addLast(new RedisServerHandler());
 			}
 		});
-		ChannelFuture future = boot.bind(port);
+		ChannelFuture future = boot.bind(redisCloudCluster.getPort());
 		future.syncUninterruptibly();// TODO
-		LOGGER.info("RedisServer start success,post:[{}]", port);
+		LOGGER.info("RedisServer start success,post:[{}]",
+				redisCloudCluster.getPort());
 	}
-	
+
+	private void init() {
+		if (redisCloudCluster == null || redisCloudCluster.getMasters() == null) {
+			LOGGER.error(" redisCloudCluster 出错  redisCloudCluster:{} ",redisCloudCluster);
+			return;
+		}
+
+		List<RedisServerClusterBean> mastsers = redisCloudCluster.getMasters();
+		for (RedisServerClusterBean serverClusterBean : mastsers) {
+
+			RedisServerBean master = serverClusterBean.getMaster();
+			if (master != null) {
+				RedisClient client = new RedisClient(master.getPoolConfig());
+				redisCloudCluster.getRedisClientMap().put(master.getKey(),client);
+			}
+			List<RedisServerBean> slaves = serverClusterBean.getSlaves();
+			if (CollectionUtils.isEmpty(slaves)) {
+				continue;
+			}
+			for (RedisServerBean serverBean : slaves) {
+				RedisClient client = new RedisClient(master.getPoolConfig());
+				redisCloudCluster.getRedisClientMap().put(serverBean.getKey(),client);
+			}
+
+		}
+	}
+
 	public static void main(String[] args) {
-		RedisServer server = new RedisServer();
-		server.start();
+		// RedisServer server = new RedisServer();
+		// server.start();
 	}
 }

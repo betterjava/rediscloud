@@ -1,5 +1,6 @@
 package com.cacheproxy.rediscloud.cluster;
 
+import com.cacheproxy.rediscloud.common.RedisConstants;
 import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
 
 /**
@@ -46,6 +47,15 @@ public class RedisServerBean {
 
 	public void setWeight(int weight) {
 		this.weight = weight;
+	}
+	
+	public String getKey(){
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(RedisConstants.REDIS_CLOUD_CLIENT_PRE);
+		buffer.append(host);
+		buffer.append(RedisConstants.SEPERATOR_ACCESS_LOG);
+		buffer.append(port);
+		return buffer.toString();
 	}
 
 }

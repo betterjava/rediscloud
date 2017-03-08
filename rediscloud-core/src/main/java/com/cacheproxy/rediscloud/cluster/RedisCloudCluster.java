@@ -1,8 +1,11 @@
 package com.cacheproxy.rediscloud.cluster;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cacheproxy.rediscloud.balance.LoadBalance;
+import com.cacheproxy.rediscloud.client.RedisClient;
 
 /**
  * @desc 集群配置
@@ -11,11 +14,16 @@ import com.cacheproxy.rediscloud.balance.LoadBalance;
  * @date 2017-3-8
  */
 public class RedisCloudCluster {
+	
 	private String host;
 	private int port;
 	private LoadBalance loadBalance;
 	private List<RedisServerClusterBean> masters;
-
+	
+	private Map<String, RedisClient> redisClientMap = new HashMap<String, RedisClient>();
+	
+	
+	
 	public String getHost() {
 		return host;
 	}
@@ -46,6 +54,10 @@ public class RedisCloudCluster {
 
 	public void setMasters(List<RedisServerClusterBean> masters) {
 		this.masters = masters;
+	}
+	
+	public Map<String, RedisClient> getRedisClientMap() {
+		return redisClientMap;
 	}
 
 }
