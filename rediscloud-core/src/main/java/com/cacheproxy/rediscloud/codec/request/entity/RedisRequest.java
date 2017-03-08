@@ -51,4 +51,8 @@ public class RedisRequest implements IRedisRequest {
 		byteBuf.writeByte(RedisConstants.CR_BYTE);
 		byteBuf.writeByte(RedisConstants.LF_BYTE);
 	}
+	
+	public List<byte[]> getCommands() {
+		return commands;
+	}
 }

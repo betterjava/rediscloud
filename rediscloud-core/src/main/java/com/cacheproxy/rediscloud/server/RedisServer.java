@@ -61,7 +61,7 @@ public class RedisServer {
 				ChannelPipeline pipeline = ch.pipeline();
 				pipeline.addLast(new RedisRequestDecoder());
 				pipeline.addLast(new RedisResponseEncoder());
-				pipeline.addLast(new RedisServerHandler());
+				pipeline.addLast(new RedisServerHandler(redisCloudCluster));
 			}
 		});
 		ChannelFuture future = boot.bind(redisCloudCluster.getPort());

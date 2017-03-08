@@ -16,6 +16,16 @@ public class RedisConstants {
     
     public static final String REDIS_CLOUD_CLIENT_PRE = "redis_cloud_";
     public static final String SEPERATOR_ACCESS_LOG = "|";
+    
+    
+    public static final String KEYS="keys";
+    public static final String INFO="info";
+    public static final String PING="ping";
+    public static final String QUIT="quit";
+    public static final String PONG="pong";
+    public static final String OK="ok";
 }
+
+
 
 

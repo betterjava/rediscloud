@@ -43,11 +43,6 @@ public class RedisCloudNode implements InitializingBean {
 	 */
 	private RedisCloudCluster initRedisCloudCluster() {
 
-		RedisCloudCluster redisCluster = new RedisCloudCluster();
-
-		redisCluster.setHost(this.getHost());
-		redisCluster.setPort(this.getPort());
-		redisCluster.setLoadBalance(this.getLoadBalance());
 
 		List<RedisServerClusterBean> clusterMasters = new ArrayList<RedisServerClusterBean>();
 
@@ -68,7 +63,12 @@ public class RedisCloudNode implements InitializingBean {
 
 			clusterMasters.add(serverClusterBean);
 		}
-		redisCluster.setMasters(clusterMasters);
+		
+		RedisCloudCluster redisCluster = new RedisCloudCluster(clusterMasters);
+
+		redisCluster.setHost(this.getHost());
+		redisCluster.setPort(this.getPort());
+		redisCluster.setLoadBalance(this.getLoadBalance());
 		return redisCluster;
 	}
 
