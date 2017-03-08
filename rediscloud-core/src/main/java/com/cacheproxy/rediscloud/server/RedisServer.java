@@ -34,8 +34,8 @@ public class RedisServer {
 	public void start() {
 
 		ServerBootstrap boot = new ServerBootstrap();
-		EventLoopGroup boosGroup = new NioEventLoopGroup();
-		EventLoopGroup workGroup = new NioEventLoopGroup();
+		EventLoopGroup boosGroup = new NioEventLoopGroup();// TODO accept 线程数 
+		EventLoopGroup workGroup = new NioEventLoopGroup();// TODO RW 线程数 
 
 		boot.group(boosGroup, workGroup);
 		boot.channel(NioServerSocketChannel.class);
