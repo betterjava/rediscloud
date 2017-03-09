@@ -21,7 +21,7 @@ public class RedisCloudCluster {
 	private LoadBalance loadBalance;
 	
 	
-	private List<RedisServerClusterBean> redisServerClusterBeans = new ArrayList<RedisServerClusterBean>();
+	private List<RedisServerClusterBean> serverClusterBeans = new ArrayList<RedisServerClusterBean>();
 	
 	private Map<String, RedisClient> redisClientMap = new HashMap<String, RedisClient>();// 
 	
@@ -32,12 +32,12 @@ public class RedisCloudCluster {
 	
 	
 	public RedisCloudCluster(List<RedisServerClusterBean> redisServerClusterBeans){
-		this.redisServerClusterBeans = redisServerClusterBeans;
+		this.serverClusterBeans = redisServerClusterBeans;
 		init();// 初始化关联 map
 	}
 	
 	private void init() {
-		for(RedisServerClusterBean serverClusterBean:redisServerClusterBeans){
+		for(RedisServerClusterBean serverClusterBean:serverClusterBeans){
 			serverClusterBeanMap.put(serverClusterBean.getMaster().getKey(), serverClusterBean);
 			masterClusters.put(serverClusterBean.getMaster().getKey(), serverClusterBean.getSlaves());
 		}
@@ -67,14 +67,6 @@ public class RedisCloudCluster {
 		this.loadBalance = loadBalance;
 	}
 
-	public List<RedisServerClusterBean> getMasters() {
-		return redisServerClusterBeans;
-	}
-
-	public void setMasters(List<RedisServerClusterBean> masters) {
-		this.redisServerClusterBeans = masters;
-	}
-	
 	public Map<String, RedisClient> getRedisClientMap() {
 		return redisClientMap;
 	}
@@ -85,6 +77,10 @@ public class RedisCloudCluster {
 	
 	public Map<String, RedisServerClusterBean> getServerClusterBeanMap() {
 		return serverClusterBeanMap;
+	}
+	
+	public List<RedisServerClusterBean> getServerClusterBeans() {
+		return serverClusterBeans;
 	}
 
 }

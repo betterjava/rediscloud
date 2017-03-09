@@ -18,12 +18,12 @@ public class RedisConstants {
     public static final String SEPERATOR_ACCESS_LOG = "|";
     
     
-    public static final String KEYS="keys";
-    public static final String INFO="info";
-    public static final String PING="ping";
-    public static final String QUIT="quit";
-    public static final String PONG="pong";
-    public static final String OK="ok";
+    public static final String KEYS="KEYS";
+    public static final String INFO="INFO";
+    public static final String PING="PING";
+    public static final String QUIT="QUIT";
+    public static final String PONG="PONG";
+    public static final String OK="OK";
 }
 
 

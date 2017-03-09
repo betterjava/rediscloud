@@ -75,12 +75,12 @@ public class RedisServer {
 	}
 
 	private void init() {
-		if (redisCloudCluster == null || redisCloudCluster.getMasters() == null) {
+		if (redisCloudCluster == null || redisCloudCluster.getServerClusterBeans() == null) {
 			LOGGER.error(" redisCloudCluster 出错  redisCloudCluster:{} ",redisCloudCluster);
 			return;
 		}
 
-		List<RedisServerClusterBean> mastsers = redisCloudCluster.getMasters();
+		List<RedisServerClusterBean> mastsers = redisCloudCluster.getServerClusterBeans();
 		for (RedisServerClusterBean serverClusterBean : mastsers) {
 
 			RedisServerBean master = serverClusterBean.getMaster();
@@ -119,11 +119,13 @@ public class RedisServer {
 		
 		clusterBean.setMaster(master );
 		
-		
 		List<RedisServerClusterBean> redisServerClusterBeans = new ArrayList<RedisServerClusterBean>();
 		
 		redisServerClusterBeans.add(clusterBean);
 		RedisCloudCluster cluster = new RedisCloudCluster(redisServerClusterBeans );
+		cluster.setHost("127.0.0.1");
+		cluster.setPort(6379);
+		cluster.setLoadBalance(new DefaultLoadBalance());
 		RedisServer server = new RedisServer(cluster);
 		 server.start();
 	}

@@ -16,7 +16,6 @@ import com.cacheproxy.rediscloud.pool.CollectionFactory;
  * @date 2017-3-6
  */
 public class RedisClient implements Client {
-	// TODO 先实现为 单连接的，跑通之后，再实现为 多个连接的
 
 	private GenericObjectPool<IRedisConnection> pool;
 
@@ -24,12 +23,12 @@ public class RedisClient implements Client {
 
 	public RedisClient(RedisConnectionPoolConfig config) {
 		this.poolConfig = config;
+		init();
 	}
 
-	public void start() {
-
+	private void init() {
 		CollectionFactory factory = new CollectionFactory(poolConfig);
-
+		
 		pool = new GenericObjectPool<IRedisConnection>(factory, poolConfig);
 	}
 

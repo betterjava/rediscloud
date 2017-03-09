@@ -23,7 +23,7 @@ public class DefaultLoadBalance extends AbstraceLoadBalance{
 	@Override
 	public RedisServerBean select(RedisCommandBean redisCommand,RedisServerBean serverBean,RedisCloudCluster cluster) {
 		// TODO 暂时不实现
-		return cluster.getMasters().get(0).getMaster();
+		return cluster.getServerClusterBeans().get(0).getMaster();
 	}
 
 }

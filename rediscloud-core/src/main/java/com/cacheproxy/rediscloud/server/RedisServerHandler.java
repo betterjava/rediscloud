@@ -51,7 +51,7 @@ public class RedisServerHandler extends
 		// 解析出来 redis 命令
 		RedisRequest request = (RedisRequest) msg; 
 		
-		String command = new String(request.getCommands().get(0)).toLowerCase();
+		String command = new String(request.getCommands().get(0)).toUpperCase();
 		
 		/**
 		 * ping --返回 pong
@@ -62,7 +62,7 @@ public class RedisServerHandler extends
 		 */
 		if(request.getCommands().size() == 1 && command.equals(RedisConstants.PING)){
 			StatusRedisResponse response = new StatusRedisResponse();
-			response.setValue(RedisConstants.PING.getBytes());
+			response.setValue(RedisConstants.PONG.getBytes());
 			context.writeAndFlush(response);
 			
 		}else if(request.getCommands().size() == 1 && command.equals(RedisConstants.QUIT)){
@@ -79,8 +79,8 @@ public class RedisServerHandler extends
 			}
 			
 		}else if(request.getCommands().size()>1 && command.equals(RedisConstants.KEYS)){
-			if(redisCloudCluster.getMasters().size() == 1){
-				RedisServerClusterBean serverClusterBean = redisCloudCluster.getMasters().get(0);
+			if(redisCloudCluster.getServerClusterBeans().size() == 1){
+				RedisServerClusterBean serverClusterBean = redisCloudCluster.getServerClusterBeans().get(0);
 				redisClientMap.get(serverClusterBean.getMaster().getKey()).write(request, context);
 			}else { // TODO 自定义一些错误信息
 				
@@ -128,7 +128,7 @@ public class RedisServerHandler extends
 
 	private RedisClient getMasterClient(RedisRequest request) {
 		RedisCommandBean commandBean = new RedisCommandBean(new String(request.getCommands().get(0)), request.getCommands().get(1), true);
-		List<RedisServerClusterBean> masters = redisCloudCluster.getMasters();
+		List<RedisServerClusterBean> masters = redisCloudCluster.getServerClusterBeans();
 		if (masters.size() == 1) {
 			String key = masters.get(0).getMaster().getKey();
 			return redisClientMap.get(key);
