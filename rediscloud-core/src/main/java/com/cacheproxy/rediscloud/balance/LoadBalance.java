@@ -24,15 +24,7 @@ public interface LoadBalance {
 	 * @param serverBean
 	 * @return
 	 */
-	RedisServerBean select(RedisCommandBean redisCommand,RedisServerBean serverBean);
-	
-	
-	/**
-	 * 设置集群
-	 * @param cluster
-	 */
-	void SetCluster(RedisCloudCluster cluster);
-	
+	RedisServerBean select(RedisCommandBean redisCommand,RedisServerBean serverBean,RedisCloudCluster cluster);
 }
 
 

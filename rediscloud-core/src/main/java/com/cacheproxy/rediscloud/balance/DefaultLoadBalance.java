@@ -10,13 +10,9 @@ import com.cacheproxy.rediscloud.support.RedisCommandBean;
  * @emial  lijiaqiya@163.com
  * @date 2017-3-9
  */
-public class DefaultLoadBalance implements LoadBalance{
+public class DefaultLoadBalance extends AbstraceLoadBalance{
 	
-	private RedisCloudCluster redisCloudCluster;
-	
-	public DefaultLoadBalance(RedisCloudCluster cluster){
-		this.redisCloudCluster = cluster;
-	}
+
 	
 	@Override
 	public void onChange(RedisCloudCluster cluster) {
@@ -25,15 +21,9 @@ public class DefaultLoadBalance implements LoadBalance{
 	}
 
 	@Override
-	public RedisServerBean select(RedisCommandBean redisCommand,RedisServerBean serverBean) {
+	public RedisServerBean select(RedisCommandBean redisCommand,RedisServerBean serverBean,RedisCloudCluster cluster) {
 		// TODO 暂时不实现
-		return redisCloudCluster.getMasters().get(0).getMaster();
-	}
-
-	@Override
-	public void SetCluster(RedisCloudCluster cluster) {
-		// TODO Auto-generated method stub
-		
+		return cluster.getMasters().get(0).getMaster();
 	}
 
 }

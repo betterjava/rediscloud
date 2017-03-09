@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.cacheproxy.rediscloud.codec.request.RedisRequestEncoder;
 import com.cacheproxy.rediscloud.codec.response.IRedisResponse;
 import com.cacheproxy.rediscloud.codec.response.RedisResponseDecoder;
-import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
+import com.cacheproxy.rediscloud.config.RedisConnectionPoolConfig;
 
 /**
  * @desc
@@ -34,9 +34,9 @@ public abstract class AbstractRedisConnection implements IRedisConnection {
 	
 	private ChannelHandlerContext frontCtx;
 	
-	private ConnectionPoolConfig poolConfig;
+	private RedisConnectionPoolConfig poolConfig;
 	
-	public AbstractRedisConnection(ConnectionPoolConfig config){
+	public AbstractRedisConnection(RedisConnectionPoolConfig config){
 		this.poolConfig = config;
 		initClientBootstrap();
 	}

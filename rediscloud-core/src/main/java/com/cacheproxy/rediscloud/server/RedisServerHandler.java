@@ -12,7 +12,6 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.cacheproxy.rediscloud.balance.LoadBalance;
 import com.cacheproxy.rediscloud.client.RedisClient;
-import com.cacheproxy.rediscloud.client.RedisClientPool;
 import com.cacheproxy.rediscloud.cluster.RedisCloudCluster;
 import com.cacheproxy.rediscloud.cluster.RedisServerBean;
 import com.cacheproxy.rediscloud.cluster.RedisServerClusterBean;
@@ -109,14 +108,14 @@ public class RedisServerHandler extends
 		/** 先选取主，再选取从*/
 		RedisCommandBean commandBean = new RedisCommandBean(new String(request.getCommands().get(0)), request.getCommands().get(1), false);
 		LoadBalance LoadBalance = redisCloudCluster.getLoadBalance();
-		RedisServerBean redisServerBean = LoadBalance.select(commandBean, null); // 选取出来的主 要看看这个主有没有从
+		RedisServerBean redisServerBean = LoadBalance.select(commandBean, null,redisCloudCluster); // 选取出来的主 要看看这个主有没有从
 		List<RedisServerBean> slaves = redisCloudCluster.getMasterClusters().get(redisServerBean.getKey());
 		
 		if(CollectionUtils.isNotEmpty(slaves)){
 			RedisServerClusterBean redisServerClusterBean = redisCloudCluster.getServerClusterBeanMap().get(redisServerBean.getKey());
 			if(redisServerClusterBean != null){
 				LoadBalance loadBalance = redisServerClusterBean.getLoadBalance();			
-				RedisServerBean resultServerBean = loadBalance.select(commandBean, redisServerBean);
+				RedisServerBean resultServerBean = loadBalance.select(commandBean, redisServerBean,redisCloudCluster);
 				if(redisServerBean != null){
 					return redisClientMap.get(resultServerBean.getKey());
 				}
@@ -135,7 +134,7 @@ public class RedisServerHandler extends
 			return redisClientMap.get(key);
 		} else {
 			LoadBalance loadBalance = redisCloudCluster.getLoadBalance();
-			RedisServerBean redisServerBean = loadBalance.select(commandBean,null);
+			RedisServerBean redisServerBean = loadBalance.select(commandBean,null,redisCloudCluster);
 			return redisClientMap.get(redisServerBean.getKey());
 		}
 	}

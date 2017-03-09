@@ -1,5 +1,6 @@
 package com.cacheproxy.rediscloud.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -15,13 +16,17 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
+import com.cacheproxy.rediscloud.balance.DefaultLoadBalance;
 import com.cacheproxy.rediscloud.client.RedisClient;
 import com.cacheproxy.rediscloud.cluster.RedisCloudCluster;
 import com.cacheproxy.rediscloud.cluster.RedisServerBean;
 import com.cacheproxy.rediscloud.cluster.RedisServerClusterBean;
 import com.cacheproxy.rediscloud.codec.request.RedisRequestDecoder;
 import com.cacheproxy.rediscloud.codec.response.RedisResponseEncoder;
+import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
+import com.cacheproxy.rediscloud.config.RedisConnectionPoolConfig;
 
 /**
  * 
@@ -66,8 +71,7 @@ public class RedisServer {
 		});
 		ChannelFuture future = boot.bind(redisCloudCluster.getPort());
 		future.syncUninterruptibly();// TODO
-		LOGGER.info("RedisServer start success,post:[{}]",
-				redisCloudCluster.getPort());
+		LOGGER.info("RedisServer start success,post:[{}]",redisCloudCluster.getPort());
 	}
 
 	private void init() {
@@ -81,7 +85,7 @@ public class RedisServer {
 
 			RedisServerBean master = serverClusterBean.getMaster();
 			if (master != null) {
-				RedisClient client = new RedisClient(master.getPoolConfig());
+				RedisClient client = new RedisClient(converToRedisPoolConfig(master.getPoolConfig(),master));
 				redisCloudCluster.getRedisClientMap().put(master.getKey(),client);
 			}
 			List<RedisServerBean> slaves = serverClusterBean.getSlaves();
@@ -89,15 +93,38 @@ public class RedisServer {
 				continue;
 			}
 			for (RedisServerBean serverBean : slaves) {
-				RedisClient client = new RedisClient(master.getPoolConfig());
+				RedisClient client = new RedisClient(converToRedisPoolConfig(master.getPoolConfig(),serverBean));
 				redisCloudCluster.getRedisClientMap().put(serverBean.getKey(),client);
 			}
 
 		}
 	}
 
+	private RedisConnectionPoolConfig converToRedisPoolConfig(ConnectionPoolConfig poolConfig,RedisServerBean redisServerBean) {
+		RedisConnectionPoolConfig config = new RedisConnectionPoolConfig(redisServerBean.getHost(), redisServerBean.getPort());
+		BeanUtils.copyProperties(poolConfig, poolConfig);
+		return config;
+	}
+
 	public static void main(String[] args) {
-		// RedisServer server = new RedisServer();
-		// server.start();
+		
+		RedisServerBean master = new RedisServerBean();
+		master.setHost("10.1.200.144");
+		master.setPort(6379);
+		master.setWeight(1);
+		master.setPoolConfig(new ConnectionPoolConfig());
+		
+		RedisServerClusterBean clusterBean = new RedisServerClusterBean();
+		clusterBean.setLoadBalance(new DefaultLoadBalance());
+		
+		clusterBean.setMaster(master );
+		
+		
+		List<RedisServerClusterBean> redisServerClusterBeans = new ArrayList<RedisServerClusterBean>();
+		
+		redisServerClusterBeans.add(clusterBean);
+		RedisCloudCluster cluster = new RedisCloudCluster(redisServerClusterBeans );
+		RedisServer server = new RedisServer(cluster);
+		 server.start();
 	}
 }

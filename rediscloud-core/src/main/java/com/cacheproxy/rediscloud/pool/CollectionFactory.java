@@ -6,7 +6,7 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 import com.cacheproxy.rediscloud.client.conn.IRedisConnection;
 import com.cacheproxy.rediscloud.client.conn.RedisConnection;
-import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
+import com.cacheproxy.rediscloud.config.RedisConnectionPoolConfig;
 
 /**
  * @desc
@@ -16,9 +16,9 @@ import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
  */
 public class CollectionFactory implements PooledObjectFactory<IRedisConnection> {
 
-	private ConnectionPoolConfig poolConfig;
+	private RedisConnectionPoolConfig poolConfig;
 
-	public CollectionFactory(ConnectionPoolConfig poolConfig) {
+	public CollectionFactory(RedisConnectionPoolConfig poolConfig) {
 		super();
 		this.poolConfig = poolConfig;
 	}

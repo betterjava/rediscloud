@@ -6,7 +6,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import com.cacheproxy.rediscloud.client.conn.IRedisConnection;
 import com.cacheproxy.rediscloud.codec.request.entity.RedisRequest;
-import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
+import com.cacheproxy.rediscloud.config.RedisConnectionPoolConfig;
 import com.cacheproxy.rediscloud.pool.CollectionFactory;
 
 /**
@@ -20,9 +20,9 @@ public class RedisClient implements Client {
 
 	private GenericObjectPool<IRedisConnection> pool;
 
-	private ConnectionPoolConfig poolConfig;
+	private RedisConnectionPoolConfig poolConfig;
 
-	public RedisClient(ConnectionPoolConfig config) {
+	public RedisClient(RedisConnectionPoolConfig config) {
 		this.poolConfig = config;
 	}
 
