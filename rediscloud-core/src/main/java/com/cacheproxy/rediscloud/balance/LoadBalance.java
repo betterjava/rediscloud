@@ -1,5 +1,6 @@
 package com.cacheproxy.rediscloud.balance;
 
+import com.cacheproxy.rediscloud.cluster.RedisCloudCluster;
 import com.cacheproxy.rediscloud.cluster.RedisServerBean;
 import com.cacheproxy.rediscloud.support.RedisCommandBean;
 
@@ -11,7 +12,27 @@ import com.cacheproxy.rediscloud.support.RedisCommandBean;
  */
 public interface LoadBalance {
 	
+	/**
+	 * 集群配置发生变更
+	 * @param clouster
+	 */
+	void onChange(RedisCloudCluster cluster);
+	
+	/**
+	 * 选取  server
+	 * @param redisCommand
+	 * @param serverBean
+	 * @return
+	 */
 	RedisServerBean select(RedisCommandBean redisCommand,RedisServerBean serverBean);
+	
+	
+	/**
+	 * 设置集群
+	 * @param cluster
+	 */
+	void SetCluster(RedisCloudCluster cluster);
+	
 }
 
 
