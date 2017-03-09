@@ -14,7 +14,6 @@ import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
  */
 public class RedisCloudMaster {
 
-//	<redisProxy:redisProxyMaster id="redismasters" host="127.0.0.1" port="6380"  algorithm-ref="loadSlaveBalance" config-ref="redisPoolConfig">
 	private List<RedisCloudSlave> slaves = new ArrayList<RedisCloudSlave>();
 	
 	private String host;
