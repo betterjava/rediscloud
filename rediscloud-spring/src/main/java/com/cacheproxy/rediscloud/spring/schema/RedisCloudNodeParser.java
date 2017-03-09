@@ -24,6 +24,7 @@ public class RedisCloudNodeParser extends AbstractSimpleBeanDefinitionParser {
 	@Override
 	protected void doParse(Element element, ParserContext parserContext,BeanDefinitionBuilder beanBuilder) {
 		// 解析的主要逻辑卸载这里...
+		
 	}
 	
 }

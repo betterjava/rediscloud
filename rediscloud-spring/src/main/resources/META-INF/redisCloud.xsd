@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.rediscloud.com/rediscloud"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.rediscloud.com/rediscloud"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.springframework.org/schema/beans"/>
+	
+	
+	<!--  <redisCloud:redisCloudSlave id="redisSlaves" host="10.1.200.144" port="6379"  weight="1" config-ref="redisPoolConfig"></redisCloud:redisCloudSlave>-->
+	<xs:element name="redisCloudSlave">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="beans:identifiedType">
+					 <xs:attribute name="host" type="xs:string" use="required" />
+			         <xs:attribute name="port" type="xs:integer" use="required" />
+			         <xs:attribute name="weight" type="xs:integer" use="required" />
+			         <xs:attribute name="config-ref" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>			
+	<!-- <redisCloud:redisCloudMaster id="redisMasters" host="10.1.200.144" port="6379"  loadBalance-ref="defaultLoadBalance" config-ref="redisPoolConfig"> -->
+	<xs:element name="redisCloudMaster">
+		<xs:complexType>
+			<xs:complexContent>
+				<xsd:sequence>
+						<xsd:element ref="redisCloudSlave" maxOccurs="unbounded" minOccurs="0"/>
+				</xsd:sequence>
+				<xs:extension base="beans:identifiedType">
+					 <xs:attribute name="host" type="xs:string" use="required" />
+			         <xs:attribute name="port" type="xs:integer" use="required" />
+			         <xs:attribute name="loadBalance-ref" type="xs:string" use="required" />
+			         <xs:attribute name="config-ref" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>	
+	<!-- <redisCloud:redisCloudNode id="redisCloud"  serverHost="127.0.0.1"  loadBalance-ref="loadMasterBalance" zkAddress="127.0.0.1:2181" prot="6379" > -->
+		<xs:element name="redisCloudNode">
+		<xs:complexType>
+			<xs:complexContent>
+				<xsd:sequence>
+						<xsd:element ref="redisCloudMaster" maxOccurs="unbounded" minOccurs="1"/>
+				</xsd:sequence>
+				<xs:extension base="beans:identifiedType">
+					 <xs:attribute name="serverHost" type="xs:string" use="required" />
+			         <xs:attribute name="port" type="xs:integer" use="required" />
+			         <xs:attribute name="loadBalance-ref" type="xs:string" use="required" />
+			         <xs:attribute name="zkAddress" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>	
+	 
+		
+</xs:schema>

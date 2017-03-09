@@ -9,7 +9,6 @@ import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
  * @date 2017-3-8
  */
 public class RedisCloudSlave {
-//	 <redisProxy:redisProxySlave id="redismasters" host="127.0.0.1" port="6381"  weight="1" config-ref="redisPoolConfig"></redisProxy:redisProxySlave>
 	private String host;
 	private int port;
 	private int weight;

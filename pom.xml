@@ -10,6 +10,7 @@
 	<modules>
 		<module>rediscloud-core</module>
 		<module>rediscloud-spring</module>
+		<module>rediscloud-startup</module>
 	</modules>
 
 	<dependencyManagement>
@@ -17,6 +18,11 @@
 			<dependency>
 				<groupId>com.cacheproxy</groupId>
 				<artifactId>rediscloud-core</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.cacheproxy</groupId>
+				<artifactId>rediscloud-spring</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
