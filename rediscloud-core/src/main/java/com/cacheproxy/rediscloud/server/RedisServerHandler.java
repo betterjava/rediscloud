@@ -31,6 +31,9 @@ import com.cacheproxy.rediscloud.support.RedisCommandRW;
 public class RedisServerHandler extends
 		SimpleChannelInboundHandler<IRedisRequest> {
 	
+	
+	
+	
 	private RedisCloudCluster redisCloudCluster;
 	
 	private Map<String, RedisClient> redisClientMap ;
