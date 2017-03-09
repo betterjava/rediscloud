@@ -7,7 +7,9 @@ package com.cacheproxy.rediscloud;
  * @date 2017-3-9
  */
 public class TestGit {
-
+	public static void main(String[] args) {
+		
+	}
 }
 
 
