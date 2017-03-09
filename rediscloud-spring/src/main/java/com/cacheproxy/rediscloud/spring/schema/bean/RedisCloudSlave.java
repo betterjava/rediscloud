@@ -1,4 +1,4 @@
-package com.cacheproxy.rediscloud.support;
+package com.cacheproxy.rediscloud.spring.schema.bean;
 
 import com.cacheproxy.rediscloud.config.ConnectionPoolConfig;
 
