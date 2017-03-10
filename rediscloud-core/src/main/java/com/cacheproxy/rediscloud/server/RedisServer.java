@@ -127,6 +127,6 @@ public class RedisServer {
 		cluster.setPort(6379);
 		cluster.setLoadBalance(new DefaultLoadBalance());
 		RedisServer server = new RedisServer(cluster);
-		 server.start();
+		server.start();
 	}
 }

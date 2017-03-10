@@ -33,11 +33,14 @@ public class RedisClient implements Client {
 	}
 
 	public void write(RedisRequest request, ChannelHandlerContext context) {
+		IRedisConnection connection = null;
 		try {
 			pool.borrowObject().write(request, context);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			pool.returnObject(connection);
 		}
 	}
 }
