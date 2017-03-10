@@ -9,6 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @date 2017-3-9
  */
 public class Main {
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		new ClassPathXmlApplicationContext(new String[] { "classpath*:redisCloud.xml" });
 	}

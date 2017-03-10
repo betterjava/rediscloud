@@ -7,8 +7,8 @@
 							 http://www.springframework.org/schema/beans
 							 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd" >
 	
-	    <!--redis 主从配置  -->
-    <redisCloud:redisCloudNode id="redisCloud"  serverHost="127.0.0.1"  loadBalance-ref="loadMasterBalance" zkAddress="127.0.0.1:2181" prot="6379" >
+	<!--redis 主从配置  -->
+    <redisCloud:redisCloudNode id="redisCloud"  serverHost="127.0.0.1"  loadBalance-ref="defaultLoadBalance" zkAddress="127.0.0.1:2181" prot="6379" >
     <!--主配置  -->      
       <redisCloud:redisCloudMaster id="redisMasters" host="10.1.200.144" port="6379"  loadBalance-ref="defaultLoadBalance" config-ref="redisPoolConfig">
       	  <!--从配置  -->     
