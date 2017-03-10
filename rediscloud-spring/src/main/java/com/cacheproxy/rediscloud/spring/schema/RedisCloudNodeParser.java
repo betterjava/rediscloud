@@ -62,7 +62,6 @@ public class RedisCloudNodeParser extends AbstractSimpleBeanDefinitionParser {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		super.doParse(element, parserContext, builder);
 	}
 
 	private List<BeanDefinition> getRedisCloudMasters(Element element,ParserContext parserContext, BeanDefinitionBuilder builder) {

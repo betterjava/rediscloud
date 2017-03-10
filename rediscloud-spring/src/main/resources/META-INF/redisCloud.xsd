@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://www.rediscloud.com/rediscloud"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.rediscloud.com/rediscloud"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.rediscloud.com/rediscloud"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
@@ -25,10 +26,11 @@
 	<xs:element name="redisCloudMaster">
 		<xs:complexType>
 			<xs:complexContent>
-				<xsd:sequence>
-						<xsd:element ref="redisCloudSlave" maxOccurs="unbounded" minOccurs="0"/>
-				</xsd:sequence>
 				<xs:extension base="beans:identifiedType">
+				<xs:sequence>
+						<xs:element ref="redisCloudSlave" maxOccurs="unbounded" minOccurs="0"/>
+				</xs:sequence>
+				
 					 <xs:attribute name="host" type="xs:string" use="required" />
 			         <xs:attribute name="port" type="xs:integer" use="required" />
 			         <xs:attribute name="loadBalance-ref" type="xs:string" use="required" />
@@ -41,10 +43,10 @@
 		<xs:element name="redisCloudNode">
 		<xs:complexType>
 			<xs:complexContent>
-				<xsd:sequence>
-						<xsd:element ref="redisCloudMaster" maxOccurs="unbounded" minOccurs="1"/>
-				</xsd:sequence>
 				<xs:extension base="beans:identifiedType">
+				<xs:sequence>
+						<xs:element ref="redisCloudMaster" maxOccurs="unbounded" minOccurs="1"/>
+				</xs:sequence>
 					 <xs:attribute name="serverHost" type="xs:string" use="required" />
 			         <xs:attribute name="port" type="xs:integer" use="required" />
 			         <xs:attribute name="loadBalance-ref" type="xs:string" use="required" />
@@ -53,6 +55,5 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>	
-	 
 		
 </xs:schema>

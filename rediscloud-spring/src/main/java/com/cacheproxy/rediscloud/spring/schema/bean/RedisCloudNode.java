@@ -24,6 +24,7 @@ public class RedisCloudNode implements InitializingBean {
 	private LoadBalance loadBalance;
 	private String zkAddress;
 	private List<RedisCloudMaster> masters = new ArrayList<RedisCloudMaster>();
+	
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -89,14 +90,7 @@ public class RedisCloudNode implements InitializingBean {
 		return serverBean;
 	}
 
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
+	
 	public int getPort() {
 		return port;
 	}
@@ -128,5 +122,12 @@ public class RedisCloudNode implements InitializingBean {
 	public void setMasters(List<RedisCloudMaster> masters) {
 		this.masters = masters;
 	}
-
+	
+	public String getHost() {
+		return host;
+	}
+	
+	public void setHost(String host) {
+		this.host = host;
+	}
 }

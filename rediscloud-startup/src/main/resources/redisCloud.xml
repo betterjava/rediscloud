@@ -2,13 +2,13 @@
 <beans	xmlns="http://www.springframework.org/schema/beans"
 		xmlns:redisCloud="http://www.rediscloud.com/rediscloud"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-		xsi:schemaLocation=" http://www.rediscloud.com/rediscloud 
+		xsi:schemaLocation="http://www.rediscloud.com/rediscloud 
 							 http://www.rediscloud.com/rediscloud/redisCloud.xsd 
 							 http://www.springframework.org/schema/beans
 							 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd" >
 	
 	<!--redis 主从配置  -->
-    <redisCloud:redisCloudNode id="redisCloud"  serverHost="127.0.0.1"  loadBalance-ref="defaultLoadBalance" zkAddress="127.0.0.1:2181" prot="6379" >
+    <redisCloud:redisCloudNode id="redisCloud"  serverHost="127.0.0.1"  loadBalance-ref="defaultLoadBalance" zkAddress="127.0.0.1:2181" port="6379" >
     <!--主配置  -->      
       <redisCloud:redisCloudMaster id="redisMasters" host="10.1.200.144" port="6379"  loadBalance-ref="defaultLoadBalance" config-ref="redisPoolConfig">
       	  <!--从配置  -->     
@@ -19,18 +19,7 @@
     <bean name="defaultLoadBalance" class="com.cacheproxy.rediscloud.balance.DefaultLoadBalance"></bean>
  	
  	<bean id="redisPoolConfig" class="com.cacheproxy.rediscloud.config.ConnectionPoolConfig">
- 	  <property name="connectionTimeout" value="5000"></property>
- 	  <property name="maxActiveConnection" value="100"></property>
- 	  <property name="maxIdleConnection" value="80"></property>
- 	  <property name="minConnection" value="10"></property>
- 	  <property name="maxWaitMillisOnBorrow" value="500"></property>
- 	  <property name="initialConnection" value="5"></property>
- 	  <property name="timeBetweenEvictionRunsMillis" value="60000"></property>
- 	  <property name="minEvictableIdleTimeMillis" value="300000"></property>
- 	  <property name="minIdleEntries" value="1"></property>
- 	  <property name="testOnBorrow" value="true"></property>
- 	  <property name="testOnReturn" value="true"></property>
- 	  <property name="testWhileIdle" value="true"></property> 	  
+ 		<property name="minIdle" value="10"></property>
+ 		<property name="maxTotal" value="100"></property>
  	</bean>
  </beans>	
-</beans>

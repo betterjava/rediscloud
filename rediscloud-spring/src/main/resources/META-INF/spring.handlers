@@ -1,1 +1,1 @@
-http\://www.rediscloud.com/rediscloud=com.opensource.netty.redis.proxy.spring.handler.RedisProxyHandlerSupport
+http\://www.rediscloud.com/rediscloud=com.cacheproxy.rediscloud.spring.handler.RedisCloudHanderSupport
